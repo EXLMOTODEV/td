@@ -41,7 +41,6 @@ install:
   - ${CXX} -v
 
 script:
-  #- if [ "$TRAVIS_OS_NAME" == "linux" ]; then cat /proc/cpuinfo && free -h ; fi
   - mkdir build
   - cd build
   - cmake -DCMAKE_BUILD_TYPE=Release -DTD_ENABLE_JNI=ON .. && make -j${JOBS}
