@@ -37,6 +37,7 @@ addons:
   apt:
     packages:
       - gperf
+      - tree
 
 
 install:
@@ -56,5 +57,5 @@ install:
 script:
   - mkdir build
   - cd build
-  - cmake .. && make -j${JOBS} VERBOSE=1
-  - ./test/run_all_tests --filter -client
+  - cmake -DTD_ENABLE_JNI=ON .. && make -j${JOBS} VERBOSE=1
+  - tree .
