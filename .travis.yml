@@ -2,10 +2,6 @@ sudo: false
 dist: trusty
 
 addons_shortcuts:
-  addons_clang38: &clang38
-    apt:
-      sources:  [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8' ]
-      packages: [ 'g++-5', 'clang-3.8','libc++-dev', 'libc++abi-dev', 'gperf']
   addons_gcc5: &gcc5
     apt:
       sources:  [ 'ubuntu-toolchain-r-test']
@@ -45,11 +41,11 @@ install:
   - ${CXX} -v
 
 script:
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then cat /proc/cpuinfo && free -h ; fi
+  #- if [ "$TRAVIS_OS_NAME" == "linux" ]; then cat /proc/cpuinfo && free -h ; fi
   - mkdir build
   - cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release -DTD_ENABLE_JNI=ON .. && make -j${JOBS} VERBOSE=1
+  - cmake -DCMAKE_BUILD_TYPE=Release -DTD_ENABLE_JNI=ON .. && make -j${JOBS}
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then make DESTDIR=/tmp/td_build/ install ; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then cd /tmp/ ; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then tar -cvzf td_build.tar.gz td_build/ ; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl --upload-file ./td_build.tar.gz https://transfer.sh/td_build.tar.gz ; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then tar -cvf td_build.tar td_build/ ; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then curl --upload-file ./td_build.tar https://transfer.sh/td_build.tar ; fi
